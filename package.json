@@ -1,8 +1,8 @@
 {
-  "name": "@jasonari/release",
+  "name": "@jason-ari/auto-release",
   "version": "1.0.0",
   "type": "module",
-  "description": "Automated version bumping and changelog generation tools",
+  "description": "Auto release tool for Node.js projects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -10,7 +10,7 @@
     "update-changelog": "dist/update-changelog.js"
   },
   "files": [
-    "dist"
+    "dist/**/*"
   ],
   "scripts": {
     "build": "tsc",
@@ -19,10 +19,15 @@
   },
   "keywords": [
     "version",
-    "changelog"
+    "changelog",
+    "release"
   ],
   "author": "jasonari",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jasonari/auto-release"
+  },
   "packageManager": "pnpm@10.7.0",
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",

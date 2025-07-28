@@ -1,4 +1,4 @@
-# release
+# Auto Release
 
 # License
 
