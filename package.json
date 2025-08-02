@@ -1,6 +1,6 @@
 {
   "name": "@jason-ari/auto-release",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Auto release tool for Node.js projects",
   "bin": {
