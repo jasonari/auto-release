@@ -1,5 +1,11 @@
 ## Changelog
 
+### [1.1.1](https://github.com/jasonari/auto-release/compare/v1.1.0...v1.1.1) (2025-08-02)
+
+#### Bug Fixes
+
+- log module not found
+
 ### [1.1.0](https://github.com/jasonari/auto-release/compare/v1.0.0...v1.1.0) (2025-08-02)
 
 #### Features

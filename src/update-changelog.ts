@@ -8,7 +8,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { execSync } from 'child_process'
-import log from './utils/log.js'
+import log from './utils/log'
 
 const isDryRun = process.argv.includes('--dry-run')
 const packagePath = path.join(process.cwd(), 'package.json')
