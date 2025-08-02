@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Auto release tool for Node.js projects",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "bin": {
     "update-version": "dist/update-version.js",
     "update-changelog": "dist/update-changelog.js"
@@ -15,7 +13,9 @@
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "pnpm run build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "update:version": "tsx src/update-version.ts",
+    "update:changelog": "tsx src/update-changelog.ts"
   },
   "keywords": [
     "version",
@@ -51,5 +51,8 @@
     "**/*.{json,md}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "chalk": "^5.4.1"
   }
 }

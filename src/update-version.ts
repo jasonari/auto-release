@@ -3,6 +3,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { execSync } from 'child_process'
+import log from './utils/log'
 
 function getCurrentVersion(): string {
   try {
@@ -103,14 +104,14 @@ function updatePackageJson(version: string): void {
   }
 }
 
-export default function main(): void {
+function main(): void {
   try {
     const currentVersion = getCurrentVersion()
     const hasTag = isHasTag()
 
     if (!hasTag) {
-      console.log(
-        '🫠 No tags found. Please run script to init CHANGELOG.md first, then create first tag.'
+      log.warn(
+        'No tags found. Please run script to init CHANGELOG.md first, then create first tag.'
       )
       process.exit(0)
     }
@@ -118,20 +119,18 @@ export default function main(): void {
     const bumpType = getVersionBumpType()
 
     if (!bumpType) {
-      console.log('🫠 No new commits or version bump required. Skipping...')
+      log.info('No new commits or version bump required. Skipping...')
       process.exit(0)
     }
 
     const newVersion = incrementVersion(currentVersion, bumpType)
     updatePackageJson(newVersion)
 
-    console.log(`✨ Successfully updated version to v${newVersion}`)
+    log.success(`Successfully updated version to v${newVersion}`)
   } catch (error) {
-    console.error(`❌ ${(error as Error).message}`)
+    log.error(`${(error as Error).message}`)
     process.exit(1)
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  main()
-}
+main()

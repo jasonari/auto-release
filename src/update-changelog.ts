@@ -3,6 +3,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { execSync } from 'child_process'
+import log from './utils/log.js'
 
 function getRepoUrl(): string {
   try {
@@ -256,13 +257,20 @@ function writeChangelog(changelog: Changelog): void {
     }
 
     fs.writeFileSync(changelogPath, content, 'utf8')
-    fs.writeFileSync(releaseNotesPath, changelog.releaseNotes, 'utf8')
+
+    if (process.env.GITHUB_ACTIONS === 'true') {
+      fs.writeFileSync(releaseNotesPath, changelog.releaseNotes, 'utf8')
+    } else {
+      log.info('Skipping .RELEASE_NOTES.md generation in local environment...')
+    }
   } catch (error) {
     throw new Error(`Failed to write changelog: ${(error as Error).message}`)
   }
 }
 
-export default function main(): void {
+function main(): void {
+  log.info('Starting update changelog...')
+
   try {
     const packagePath = path.join(process.cwd(), 'package.json')
     const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
@@ -275,7 +283,7 @@ export default function main(): void {
     const lastTag = getLastTag()
 
     if (!lastTag) {
-      console.log('⚠️ No tags found. Creating initial changelog...\n')
+      log.warn('No tags found. Creating initial changelog...')
     }
 
     compareVersion(version, lastTag)
@@ -288,17 +296,15 @@ export default function main(): void {
 
     writeChangelog(changelog)
 
-    console.log('✨ Successfully updated CHANGELOG.md')
+    log.success('Successfully updated CHANGELOG.md')
   } catch (error) {
     if (error instanceof Error) {
-      console.error(`❌ ${error.message}`)
+      log.error(`${error.message}`)
     } else {
-      console.error('❌ An unknown error occurred')
+      log.error('An unknown error occurred')
     }
     process.exit(1)
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  main()
-}
+main()
