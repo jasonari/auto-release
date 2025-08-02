@@ -1,9 +1,19 @@
 #!/usr/bin/env node
 
+/**
+ * Update the CHANGELOG.md file based on git commit history.
+ * It generates a changelog entry for the latest version(tag), including commit messages,
+ * grouped by type, and links to pull requests.
+ */
 import * as fs from 'fs'
 import * as path from 'path'
 import { execSync } from 'child_process'
 import log from './utils/log.js'
+
+const isDryRun = process.argv.includes('--dry-run')
+const packagePath = path.join(process.cwd(), 'package.json')
+const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+const currentVersion = packageJson.version
 
 function getRepoUrl(): string {
   try {
@@ -121,9 +131,8 @@ function compareVersion(version: string, lastTag: string | null): boolean {
     (major1 === major2 && minor1 === minor2 && patch1 > patch2)
 
   if (!isVersionGreater) {
-    throw new Error(
-      `Version "${version}" is not greater than last tag "${lastTag}"`
-    )
+    log.warn(`Version "${version}" is not greater than last tag "${lastTag}"`)
+    process.exit(1)
   }
 
   return true
@@ -256,6 +265,14 @@ function writeChangelog(changelog: Changelog): void {
       }
     }
 
+    if (isDryRun) {
+      log.info(`Dry run: Changelog would be updated with:\n${content}`)
+      log.info(
+        `Dry run: releaseNotes would be updated with:\n${changelog.releaseNotes}`
+      )
+      process.exit(0)
+    }
+
     fs.writeFileSync(changelogPath, content, 'utf8')
 
     if (process.env.GITHUB_ACTIONS === 'true') {
@@ -269,26 +286,20 @@ function writeChangelog(changelog: Changelog): void {
 }
 
 function main(): void {
-  log.info('Starting update changelog...')
+  log.info('Starting changelog update process...')
+  if (!currentVersion) {
+    throw new Error('Missing "version" field in package.json')
+  }
 
   try {
-    const packagePath = path.join(process.cwd(), 'package.json')
-    const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
-    const version = packageJson.version
-
-    if (!version) {
-      throw new Error('Missing "version" field in package.json')
-    }
-
     const lastTag = getLastTag()
-
     if (!lastTag) {
       log.warn('No tags found. Creating initial changelog...')
     }
 
-    compareVersion(version, lastTag)
+    compareVersion(currentVersion, lastTag)
 
-    const versionInfo = getVersionInfo(version, lastTag)
+    const versionInfo = getVersionInfo(currentVersion, lastTag)
     const commits = getCommits(lastTag)
     const parsedCommits = parseCommits(commits)
     const groupedCommits = groupCommits(parsedCommits)

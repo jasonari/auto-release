@@ -5,6 +5,7 @@ import * as path from 'path'
 import { execSync } from 'child_process'
 import log from './utils/log'
 
+const isDryRun = process.argv.includes('--dry-run')
 const packagePath = path.join(process.cwd(), 'package.json')
 const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
 let currentVersion: string = ''
@@ -90,9 +91,14 @@ const incrementVersion = (bumpType: string): string => {
   }
 }
 
-const updatePackageJson = (version: string): void => {
+const updatePackageJsonVersion = (version: string): void => {
   try {
     packageJson.version = version
+
+    if (isDryRun) {
+      log.info(`Dry run complete. Version would be updated to v${newVersion}`)
+      process.exit(0)
+    }
 
     fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2) + '\n', {
       encoding: 'utf8'
@@ -104,28 +110,8 @@ const updatePackageJson = (version: string): void => {
   }
 }
 
-const resetPackageJsonVersion = (): void => {
-  packageJson.version = currentVersion
-  fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2) + '\n', {
-    encoding: 'utf8'
-  })
-}
-
-const gitTag = (version: string) => {
-  try {
-    execSync(`git tag -m 'tag by Auto Release' v${version}`, {
-      stdio: 'ignore'
-    })
-    execSync(`git push origin v${version}`, { stdio: 'ignore' })
-
-    log.success(`Git tag v${version} created and pushed successfully.`)
-  } catch (error) {
-    resetPackageJsonVersion()
-    throw new Error(`Failed to create git tag: ${(error as Error).message}`)
-  }
-}
-
 const main = (): void => {
+  log.info('Starting version update process...')
   try {
     currentVersion = getCurrentVersion()
     const hasTag = isHasTag()
@@ -143,9 +129,7 @@ const main = (): void => {
     }
 
     newVersion = incrementVersion(bumpType)
-    updatePackageJson(newVersion)
-
-    gitTag(newVersion)
+    updatePackageJsonVersion(newVersion)
 
     log.success(`Successfully updated version to v${newVersion}`)
   } catch (error) {
