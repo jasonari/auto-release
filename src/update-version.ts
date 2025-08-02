@@ -110,9 +110,7 @@ function main(): void {
     const hasTag = isHasTag()
 
     if (!hasTag) {
-      log.warn(
-        'No tags found. Please run script to init CHANGELOG.md first, then create first tag.'
-      )
+      log.warn('No tags found. Please create a tag first.')
       process.exit(0)
     }
 
