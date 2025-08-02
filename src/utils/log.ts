@@ -6,11 +6,11 @@ const scriptNameWithStyle = chalk.bold.cyan(`[${SCRIPT_NAME}]`)
 const info = (message: string) =>
   console.log(`${scriptNameWithStyle} ${message}`)
 const success = (message: string) =>
-  console.log(`${scriptNameWithStyle}✨ ${chalk.green(message)}`)
+  console.log(`${scriptNameWithStyle} ✨ ${chalk.green(message)}`)
 const warn = (message: string) =>
-  console.log(`${scriptNameWithStyle}⚠️ ${chalk.yellow(message)}`)
+  console.log(`${scriptNameWithStyle} ⚠️ ${chalk.yellow(message)}`)
 const error = (message: string) =>
-  console.error(`${scriptNameWithStyle}❌ ${chalk.red(message)}`)
+  console.error(`${scriptNameWithStyle} ❌ ${chalk.red(message)}`)
 
 export default {
   info,
