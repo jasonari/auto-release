@@ -4,8 +4,8 @@
   "type": "module",
   "description": "Auto release tool for Node.js projects",
   "bin": {
-    "update:version": "dist/update-version.js",
-    "update:changelog": "dist/update-changelog.js"
+    "update-version": "dist/update-version.js",
+    "update-changelog": "dist/update-changelog.js"
   },
   "files": [
     "dist/**/*"
