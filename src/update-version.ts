@@ -5,7 +5,7 @@ import * as path from 'path'
 import { execSync } from 'child_process'
 import log from './utils/log'
 
-function getCurrentVersion(): string {
+const getCurrentVersion = (): string => {
   try {
     const packagePath = path.join(process.cwd(), 'package.json')
     const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
@@ -22,7 +22,7 @@ function getCurrentVersion(): string {
   }
 }
 
-function isHasTag(): boolean {
+const isHasTag = (): boolean => {
   try {
     const tags = execSync('git tag', { encoding: 'utf8' }).trim()
     return tags.length > 0
@@ -31,7 +31,7 @@ function isHasTag(): boolean {
   }
 }
 
-function getVersionBumpType(): string | null {
+const getVersionBumpType = (): string | null => {
   try {
     const latestTag = execSync('git describe --tags --abbrev=0', {
       encoding: 'utf8',
@@ -73,7 +73,7 @@ function getVersionBumpType(): string | null {
   }
 }
 
-function incrementVersion(currentVersion: string, bumpType: string): string {
+const incrementVersion = (currentVersion: string, bumpType: string): string => {
   const [major, minor, patch] = currentVersion.split('.').map(Number)
 
   switch (bumpType) {
@@ -88,7 +88,7 @@ function incrementVersion(currentVersion: string, bumpType: string): string {
   }
 }
 
-function updatePackageJson(version: string): void {
+const updatePackageJson = (version: string): void => {
   try {
     const packagePath = path.join(process.cwd(), 'package.json')
     const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
@@ -104,7 +104,20 @@ function updatePackageJson(version: string): void {
   }
 }
 
-function main(): void {
+const gitTag = (version: string) => {
+  try {
+    execSync(`git tag -m 'tag by Auto Release' v${version}`, {
+      stdio: 'ignore'
+    })
+    execSync(`git push origin v${version}`, { stdio: 'ignore' })
+
+    log.success(`Git tag v${version} created and pushed successfully.`)
+  } catch (error) {
+    throw new Error(`Failed to create git tag: ${(error as Error).message}`)
+  }
+}
+
+const main = (): void => {
   try {
     const currentVersion = getCurrentVersion()
     const hasTag = isHasTag()
@@ -123,6 +136,8 @@ function main(): void {
 
     const newVersion = incrementVersion(currentVersion, bumpType)
     updatePackageJson(newVersion)
+
+    gitTag(newVersion)
 
     log.success(`Successfully updated version to v${newVersion}`)
   } catch (error) {
