@@ -1,5 +1,11 @@
 ## Changelog
 
+### [1.1.3](https://github.com/jasonari/auto-release/compare/v1.1.2...v1.1.3) (2025-08-02)
+
+#### Bug Fixes
+
+- module not found by tsconfig and import file extname
+
 ### [1.1.2](https://github.com/jasonari/auto-release/compare/v1.1.1...v1.1.2) (2025-08-02)
 
 #### Bug Fixes
