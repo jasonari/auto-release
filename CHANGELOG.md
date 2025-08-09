@@ -1,5 +1,15 @@
 ## Changelog
 
+### [1.2.0](https://github.com/jasonari/auto-release/compare/v1.1.3...v1.2.0) (2025-08-09)
+
+#### Features
+
+- add create tag tool
+
+#### Bug Fixes
+
+- dry run mode
+
 ### [1.1.3](https://github.com/jasonari/auto-release/compare/v1.1.2...v1.1.3) (2025-08-02)
 
 #### Bug Fixes
