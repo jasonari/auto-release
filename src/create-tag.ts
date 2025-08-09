@@ -21,9 +21,9 @@ ${scriptNameWithStyle} ${questionWithStyle}`
 
 function gitAddCommitAndTag(): void {
   execSync('git add ./')
-  execSync(`git commit -m "chore: Release v${version}"`)
-  log.success(`Git committed with message: "chore: Release v${version}"`)
-  execSync(`git tag -a v${version} -m "Release v${version}"`)
+  execSync(`git commit -m "chore: release v${version}"`)
+  log.success(`Git committed with message: "chore: release v${version}"`)
+  execSync(`git tag -a v${version} -m "release v${version}"`)
   log.success(`Git tag created: v${version}`)
 }
 
