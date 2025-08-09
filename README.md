@@ -42,12 +42,12 @@ npx update-changelog
 npx create-tag
 ```
 
-#### 4. Dry run
+### Dry Runs
+
+Use `--dry-run` to see what changes would be made without actually applying them.
+
+e.g.
 
 ```shell
 npx update-version --dry-run
-```
-
-```shell
-npx update-changelog --dry-run
 ```
