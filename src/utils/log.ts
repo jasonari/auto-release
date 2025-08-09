@@ -1,6 +1,5 @@
 import chalk from 'chalk'
-
-const SCRIPT_NAME = 'Auto Release'
+import { SCRIPT_NAME } from '../config/constants.js'
 
 const isDryRun = process.argv.includes('--dry-run')
 const scriptNameWithStyle = isDryRun
