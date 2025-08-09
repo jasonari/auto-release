@@ -5,7 +5,8 @@
   "description": "Auto release tool for Node.js projects",
   "bin": {
     "update-version": "dist/update-version.js",
-    "update-changelog": "dist/update-changelog.js"
+    "update-changelog": "dist/update-changelog.js",
+    "create-tag": "dist/create-tag.js"
   },
   "files": [
     "dist/**/*"
@@ -15,7 +16,8 @@
     "prepublishOnly": "pnpm run build",
     "prepare": "husky",
     "update:version": "tsx src/update-version.ts",
-    "update:changelog": "tsx src/update-changelog.ts"
+    "update:changelog": "tsx src/update-changelog.ts",
+    "create:tag": "tsx src/create-tag.ts"
   },
   "keywords": [
     "version",

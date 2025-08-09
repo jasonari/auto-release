@@ -10,23 +10,44 @@
 ### Installation
 
 ```shell
-pnpm add @jason-ari/auto-release
+npm install @jason-ari/auto-release
 ```
 
 ### Usage
 
-Update package version
+> 💡 This tool will be based on the commits from **the previous tag in the local git history to HEAD**.
+> Before using this tool, ensure there is at least one tag in the git repository.
+
+#### 1. Update package version
+
+Automatically update the version field in package.json by comparing the commit types from the previous tag to HEAD in the git history.
 
 ```shell
-pnpm update-version
+npx update-version
 ```
 
-Update CHANGELOG.md
+#### 2. Update CHANGELOG.md
+
+Identify the commits in the git repository that conform to the [Angular Commit Message Conventions](https://github.com/angular/angular/blob/main/contributing-docs/commit-message-guidelines.md) from the previous tag to HEAD, categorize them into Features and Bug Fixes, and update the changelog.
 
 ```shell
-pnpm update-changelog
+npx update-changelog
 ```
 
-## License
+#### 3. Create a Git tag
 
-Licensed as MIT.
+> 💡 You should add a new tag in the git repository by running this command when changelog is updated.
+
+```shell
+npx create-tag
+```
+
+### Dry Runs
+
+Use `--dry-run` to see what changes would be made without actually applying them.
+
+e.g.
+
+```shell
+npx update-version --dry-run
+```
