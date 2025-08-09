@@ -10,21 +10,31 @@
 ### Installation
 
 ```shell
-pnpm add @jason-ari/auto-release
+npm install @jason-ari/auto-release
 ```
 
 ### Usage
 
-Update package version
+#### 1. Update package version
 
 ```shell
-pnpm update-version
+npx update-version
 ```
 
-Update CHANGELOG.md
+#### 2. Update CHANGELOG.md
 
 ```shell
-pnpm update-changelog
+npx update-changelog
+```
+
+#### 3. Dry run
+
+```shell
+npx update-version --dry-run
+```
+
+```shell
+npx update-changelog --dry-run
 ```
 
 ## License

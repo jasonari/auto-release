@@ -1,7 +1,11 @@
 import chalk from 'chalk'
 
 const SCRIPT_NAME = 'Auto Release'
-const scriptNameWithStyle = chalk.bold.cyan(`[${SCRIPT_NAME}]`)
+
+const isDryRun = process.argv.includes('--dry-run')
+const scriptNameWithStyle = isDryRun
+  ? chalk.bold.cyan(`[${SCRIPT_NAME}]`) + chalk.dim(' (dry run)')
+  : chalk.bold.cyan(`[${SCRIPT_NAME}]`)
 
 const info = (message: string) =>
   console.log(`${scriptNameWithStyle} ${message}`)
