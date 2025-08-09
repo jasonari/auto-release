@@ -36,7 +36,7 @@ npx update-changelog
 
 #### 3. Create a Git tag
 
-> 💡 You should add a new tag in the git repository after running this command when changelog is updated.
+> 💡 You should add a new tag in the git repository by running this command when changelog is updated.
 
 ```shell
 npx create-tag
